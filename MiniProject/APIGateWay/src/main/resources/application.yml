@@ -1,0 +1,68 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: STATEMENT-SERVICE
+          uri: lb://STATEMENT-SERVICE
+          predicates:
+            - Path=/v1/api/statement/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: STATEMENT-SERVICE
+                fallbackuri: forward:/statementServiceFallBack
+        - id: EXPORT-SERVICE
+          uri: lb://EXPORT-SERVICE
+          predicates:
+            - Path=/v1/api/export/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: EXPORT-SERVICE
+                fallbackuri: forward:/exportServiceFallBack
+        - id: COMMODITY-SERVICE
+          uri: lb://COMMODITY-SERVICE
+          predicates:
+            - Path=/v1/api/commodity/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: COMMODITY-SERVICE
+                fallbackuri: forward:/commodityServiceFallBack
+        - id: IMPORT-SERVICE
+          uri: lb://IMPORT-SERVICE
+          predicates:
+            - Path=/v1/api/import/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: IMPORT-SERVICE
+                fallbackuri: forward:/importServiceFallBack
+
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 200000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-register: true
+    service url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
