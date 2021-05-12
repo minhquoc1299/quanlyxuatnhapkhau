@@ -14,16 +14,16 @@ import java.time.ZoneOffset;
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 
-    @ExceptionHandler(Exception.class)
+    /*@ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorMessage handleAllException(Exception ex, WebRequest request) {
         return new ErrorMessage(10000, "Id khong ton tai", LocalDateTime.now(ZoneOffset.UTC));
-    }
+    }*/
 
-    @ExceptionHandler(SaveException.class)
+   /* @ExceptionHandler(SaveException.class)
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
     public ErrorMessage saveException(Exception ex, WebRequest request) {
         return new ErrorMessage(500, ex.getMessage(), LocalDateTime.now(ZoneOffset.UTC));
-    }
+    }*/
 
 }

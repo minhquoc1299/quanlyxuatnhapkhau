@@ -65,9 +65,7 @@ public class ImportController {
     @GetMapping("/excelReceiptImport/{idReceipt}")
     public ExcelReceiptImportDTO getExcel(@PathVariable(name = "idReceipt") String idReceipt) throws ReceiptImportNotFoundException {
         ImportExportEntity importExportEntity = importExportService.getByIdImportExport(UUID.fromString(idReceipt));
-
         ExcelReceiptImportDTO excelReceiptImportDTO = excelReceiptImportMapper.toExcelReceiptImportDTO(importExportEntity);
-
         return excelReceiptImportDTO;
 
     }

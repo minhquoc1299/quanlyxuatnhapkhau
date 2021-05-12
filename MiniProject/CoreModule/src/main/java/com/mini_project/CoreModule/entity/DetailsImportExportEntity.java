@@ -58,19 +58,9 @@ public class DetailsImportExportEntity {
     @Column(name = "total")
     private Double total;
 
-    @Column(name = "ref_id_export")
-    @Type(type = "uuid-char")
-    private UUID refIdExport;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ref_id_export" ,insertable = false,updatable = false)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @JsonBackReference
-    private DetailsImportExportEntity detailsImportExportEntity;
 
     @OneToMany(
-            mappedBy = "detailsImportExportEntity",
+            mappedBy = "idExportRefEntity",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
@@ -78,10 +68,20 @@ public class DetailsImportExportEntity {
     @EqualsAndHashCode.Exclude
     @JsonManagedReference
     @JsonIgnore
-    private Collection<DetailsImportExportEntity> detailsImportExportEntities
-            = new ArrayList<DetailsImportExportEntity>();
+    private Collection<RefEntity> idExportRefEntities
+            = new ArrayList<RefEntity>();
 
-
+    @OneToMany(
+            mappedBy = "refIdExportRefEntity",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonManagedReference
+    @JsonIgnore
+    private Collection<RefEntity> refIdExportRefEntities
+            = new ArrayList<RefEntity>();
 
 }
 

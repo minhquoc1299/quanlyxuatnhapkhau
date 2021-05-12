@@ -1,0 +1,20 @@
+server:
+  port: 9999
+
+spring:
+  application:
+    name: SECURITY-SERVICE
+  datasource:
+    url: jdbc:mysql://localhost:3306/import_export_db
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password:
+  thymeleaf:
+    cache: false
+  jpa:
+    properites:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true

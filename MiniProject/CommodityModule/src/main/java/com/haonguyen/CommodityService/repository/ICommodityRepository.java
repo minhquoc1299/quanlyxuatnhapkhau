@@ -2,6 +2,7 @@ package com.haonguyen.CommodityService.repository;
 
 
 import com.haonguyen.CommodityService.dto.CommodityInWarehouseDto;
+import com.haonguyen.CommodityService.dto.CommodityListDTO;
 import com.haonguyen.CommodityService.dto.CommoditySearchDto;
 import com.haonguyen.CommodityService.dto.TypeAndTaxCommodityAPI;
 import com.mini_project.CoreModule.entity.CommodityEntity;
@@ -17,14 +18,14 @@ import java.util.UUID;
 
 @Repository
 public interface ICommodityRepository extends JpaRepository<CommodityEntity, UUID> {
-    @Query(value = "SELECT c FROM CommodityEntity c where c.idTypeOfCommodity=?1")
+    @Query(value = "SELECT c FROM CommodityEntity c WHERE c.idTypeOfCommodity=?1")
     List<CommodityEntity> findCommodityByIdTypeOfCommodity(UUID idTypeOfCommodity);
 
     //    tim kiem da dieu kien
     @Query(value = "SELECT new com.haonguyen.CommodityService.dto.CommoditySearchDto(c.commodityName,c.description,c.price,c.unit,c.idTypeOfCommodity) " +
             "FROM CommodityEntity c " +
-            "inner join TypeOfCommodityEntity tc on c.idTypeOfCommodity=tc.id " +
-            "where concat(c.commodityName,' ',tc.typeName,' ',c.price,' ') like trim('%',:key, '%') ")
+            "INNER JOIN TypeOfCommodityEntity tc ON c.idTypeOfCommodity=tc.id " +
+            "WHERE concat(c.commodityName,' ',tc.typeName,' ',c.price,' ') like trim('%',:key, '%') ")
     List<CommoditySearchDto> searchCommodity(String key);
 
     @Query(value = "SELECT new com.haonguyen.CommodityService.dto.CommoditySearchDto(c.commodityName,c.description,c.price,c.unit,c.idTypeOfCommodity) " +
@@ -32,11 +33,11 @@ public interface ICommodityRepository extends JpaRepository<CommodityEntity, UUI
     List<CommoditySearchDto> findAllSearchCommodity();
 //
 
-    @Query(value = "select new com.haonguyen.CommodityService.dto.CommodityInWarehouseDto(co.commodityName,wa.warehouseName,wc.inventoryNumber) " +
+    @Query(value = "SELECT new com.haonguyen.CommodityService.dto.CommodityInWarehouseDto(co.commodityName,wa.warehouseName,wc.inventoryNumber) " +
             "from WarehouseCommodityEntity wc " +
-            "inner join CommodityEntity co on wc.idCommodity=co.id " +
-            "inner join WarehouseEntity wa on wc.idWarehouse = wa.id " +
-            "where wc.inventoryNumber > 0 " +
+            "INNER JOIN CommodityEntity co ON wc.idCommodity = co.id " +
+            "INNER JOIN WarehouseEntity wa ON wc.idWarehouse = wa.id " +
+            "WHERE wc.inventoryNumber > 0 " +
             "order by wa.warehouseName asc")
     List<CommodityInWarehouseDto> CommodityInWarehouse();
 
@@ -45,18 +46,27 @@ public interface ICommodityRepository extends JpaRepository<CommodityEntity, UUI
             " co.id,co.commodityName,co.price,co.unit," +
             " tax.id,tax.taxBracketName,tax.coefficient) " +
             " FROM CommodityEntity co" +
-            " inner join TypeOfCommodityEntity ty" +
-            " on co.idTypeOfCommodity = ty.id" +
-            " inner join TaxBracketEntity tax" +
-            " on tax.id = ty.idTaxBracket" +
-            " where co.id = :idCommodity")
+            " INNER JOIN TypeOfCommodityEntity ty ON co.idTypeOfCommodity = ty.id" +
+            " INNER JOIN TaxBracketEntity tax ON tax.id = ty.idTaxBracket" +
+            " WHERE co.id = :idCommodity")
     TypeAndTaxCommodityAPI getTypeTaxCommodity(@Param(value = "idCommodity") UUID idCommodity);
 
     @Query(value = "SELECT w FROM WarehouseCommodityEntity w " +
-            "Where w.idCommodity=?1")
-    WarehouseCommodityEntity checkCommodityInWarehouseById(UUID id);
+            "WHERE w.idCommodity = :idCommodity")
+    WarehouseCommodityEntity checkCommodityInWarehouseById(@Param("idCommodity") UUID idCommodity);
 
-    @Query(value = "select e from CommodityEntity e " +
-            " where e.id = :idCommodity ")
+    @Query(value = "SELECT e FROM CommodityEntity e " +
+            " WHERE e.id = :idCommodity ")
     CommodityEntity checkIdCommodity(@Param("idCommodity") UUID idCommodity);
+
+    @Query(value = "SELECT new com.haonguyen.CommodityService.dto.CommodityListDTO(como.id," +
+            " tyc.typeName," +
+            " como.commodityName," +
+            " como.price," +
+            " como.unit," +
+            " wc.inventoryNumber)" +
+            " FROM CommodityEntity como" +
+            " LEFT JOIN WarehouseCommodityEntity wc ON como.id = wc.idCommodity" +
+            " INNER JOIN TypeOfCommodityEntity tyc ON como.idTypeOfCommodity = tyc.id")
+    List<CommodityListDTO> getListCommodity();
 }

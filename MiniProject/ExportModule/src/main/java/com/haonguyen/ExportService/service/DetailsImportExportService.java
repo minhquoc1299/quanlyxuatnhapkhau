@@ -100,7 +100,7 @@ public class DetailsImportExportService implements IDetailsImportExportService {
                                         .idCommodity(temp.getIdCommodity())
                                         .quantity(temp.getQuantity())
                                         .total(total)
-                                        .refIdExport(temp1.getId())
+                                       // .refIdExport(temp1.getId())
                                         .build());
                         detailsExportDTOList.add(detailsExportDTO);
                         break;
@@ -113,7 +113,7 @@ public class DetailsImportExportService implements IDetailsImportExportService {
                                         .idCommodity(temp.getIdCommodity())
                                         .quantity(temp.getQuantity())
                                         .total(total)
-                                        .refIdExport(quantityUsingInImport.getIdRefExport())
+                                        //.refIdExport(quantityUsingInImport.getIdRefExport())
                                         .build());
                         detailsExportDTOList.add(detailsExportDTO);
                         break;

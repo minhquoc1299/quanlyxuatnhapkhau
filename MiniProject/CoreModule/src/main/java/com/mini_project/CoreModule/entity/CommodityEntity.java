@@ -75,5 +75,4 @@ public class CommodityEntity {
     private TypeOfCommodityEntity typeOfCommodityEntity;
 
 
-
 }

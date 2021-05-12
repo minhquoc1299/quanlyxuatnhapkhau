@@ -1,0 +1,35 @@
+<!--header start-->
+<header class="header fixed-top clearfix" th:fragment="header">
+    <!--logo start-->
+    <div class="brand">
+        <a th:href="@{dashboard}" class="logo">
+            BROOK
+        </a>
+        <div class="sidebar-toggle-box">
+            <div class="fa fa-bars"></div>
+        </div>
+    </div>
+    <!--logo end-->
+    <div class="top-nav clearfix">
+        <!--search & user info start-->
+        <ul class="nav pull-right top-menu">
+            <!-- user login dropdown start-->
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    <img alt="" th:src="@{/images/2.png}">
+                    <span class="username">Minh Quoc</span>
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu extended logout">
+                    <li><a href="#"><i class=" fa fa-suitcase"></i>Thông tin cá nhân</a></li>
+                    <li><a href="#"><i class="fa fa-cog"></i> Đổi mật khẩu</a></li>
+                    <li><a href="login.html"><i class="fa fa-key"></i>Đăng xuất</a></li>
+                </ul>
+            </li>
+            <!-- user login dropdown end -->
+
+        </ul>
+        <!--search & user info end-->
+    </div>
+</header>
+<!--header end-->
