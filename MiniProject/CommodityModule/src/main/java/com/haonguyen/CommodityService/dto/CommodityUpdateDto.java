@@ -1,15 +1,16 @@
 package com.haonguyen.CommodityService.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
 import java.util.UUID;
 
 
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
-
+@AllArgsConstructor
 public class CommodityUpdateDto {
     @Type(type = "uuid-char")
     private UUID id;
@@ -19,54 +20,6 @@ public class CommodityUpdateDto {
     private String unit;
     @Type(type = "uuid-char")
     private UUID idTypeOfCommodity;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getCommodityName() {
-        return commodityName;
-    }
-
-    public void setCommodityName(String commodityName) {
-        this.commodityName = commodityName;
-    }
-
-    public UUID getIdTypeOfCommodity() {
-        return idTypeOfCommodity;
-    }
-
-    public void setIdTypeOfCommodity(UUID idTypeOfCommodity) {
-        this.idTypeOfCommodity = idTypeOfCommodity;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
 
 
 }

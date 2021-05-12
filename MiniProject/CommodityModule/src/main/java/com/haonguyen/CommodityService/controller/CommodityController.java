@@ -6,6 +6,7 @@ import com.haonguyen.CommodityService.dto.*;
 import com.haonguyen.CommodityService.iservice.ICommodityService;
 import com.haonguyen.CommodityService.iservice.IWarehouseService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +24,6 @@ public class CommodityController {
         this.iCommodityService = iCommodityService;
         this.iWarehouseService = iWarehouseService;
     }
-
-
     /**
      * tim kiem da  dieu kien
      */
@@ -33,13 +32,11 @@ public class CommodityController {
         List<CommoditySearchDto> commoditySearchDtos = iCommodityService.searchCommodity(keySearchDto.getKey());
         return commoditySearchDtos;
     }
-
-
     /**
      * xoa hang
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteCommodity(@PathVariable("id") UUID id) throws SaveException {
+    public ResponseEntity deleteCommodity(@PathVariable("id") UUID id){
         iCommodityService.deleteCommodity(id);
         return ResponseEntity.ok().body("success");
     }
@@ -97,10 +94,15 @@ public class CommodityController {
     /**
      * thong tin thue
      */
-    @RequestMapping(value = "/getTypeTax/{id}")
+    @RequestMapping(value = "/getTypeTax/{id}", method = RequestMethod.GET)
     public TypeAndTaxCommodityAPI getTypeTaxCommodity(@PathVariable("id") UUID idCommodity) throws Exception {
         TypeAndTaxCommodityAPI typeAndTaxCommodityAPI = iCommodityService.getTypeTaxCommodity(idCommodity);
         return typeAndTaxCommodityAPI;
+    }
+
+    @RequestMapping(value = "/list",method = RequestMethod.GET)
+    public List<CommodityListDTO> getListCommodity(){
+        return iCommodityService.getListCommodity();
     }
 
 }

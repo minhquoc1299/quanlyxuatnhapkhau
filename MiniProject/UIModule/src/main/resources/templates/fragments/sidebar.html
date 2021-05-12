@@ -1,0 +1,53 @@
+<aside th:fragment = "sidebar">
+    <div id="sidebar" class="nav-collapse">
+        <!-- sidebar menu start-->
+        <div class="leftside-navigation">
+            <ul class="sidebar-menu" id="nav-accordion">
+                <li>
+                    <a class="active" th:href="@{dashboard}">
+                        <i class="fa fa-dashboard"></i>
+                        <span>Trang chủ</span>
+                    </a>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-cubes"></i>
+                        <span>Quản lý hàng hóa</span>
+                    </a>
+                    <ul class="sub">
+                        <li><a th:href="@{commodity}">Danh sách hàng hóa</a></li>
+                        <li><a th:href="@{addCommodity}">Thêm hàng hóa</a></li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-plus-square"></i>
+                        <span>Quản lý nhập khẩu</span>
+                    </a>
+                    <ul class="sub">
+                        <li><a th:href="@{import}">Danh sách phiếu nhập</a></li>
+                        <li><a th:href="@{importAdd}">Thêm phiếu nhập</a></li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-minus-square"></i>
+                        <span>Quản lý xuất khẩu</span>
+                    </a>
+                    <ul class="sub">
+                        <li><a href="typography.html">Danh sách phiếu xuất</a></li>
+                        <li><a href="glyphicon.html">Thêm phiếu xuất</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a th:href="@{login}">
+                        <i class="fa fa-sign-out"></i>
+                        <span>Đăng Xuất</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- sidebar menu end-->
+    </div>
+</aside>

@@ -9,7 +9,7 @@ import java.util.UUID;
 
 
 public interface ICommodityService {
-    void deleteCommodity(UUID id) throws SaveException;
+    void deleteCommodity(UUID id);
 
     CommodityCreateDto addCommodity(CommodityCreateDto commodityCreateDto);
 
@@ -22,4 +22,6 @@ public interface ICommodityService {
     CommodityCreateDto CommodityById(UUID id);
 
     TypeAndTaxCommodityAPI getTypeTaxCommodity(UUID idCommodity) throws Exception;
+
+    List<CommodityListDTO> getListCommodity();
 }

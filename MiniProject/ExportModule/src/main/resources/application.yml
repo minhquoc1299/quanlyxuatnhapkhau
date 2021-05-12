@@ -1,9 +1,6 @@
 server:
   port: 8112
 
-
-
-
 spring:
   application:
     name: EXPORT-SERVICE

@@ -1,0 +1,16 @@
+
+server:
+  port: 8999
+
+spring:
+  application:
+    name: UI-MODULE
+  thymeleaf:
+    cache: false
+    check-template-location: true
+    check-template: true
+    enable: true
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    template-resolver-order: 3

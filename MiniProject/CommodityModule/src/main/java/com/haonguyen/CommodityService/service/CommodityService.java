@@ -7,6 +7,7 @@ import com.haonguyen.CommodityService.mapper.ICommodityMapper;
 import com.haonguyen.CommodityService.mapper.ICommodityMapperImpl;
 import com.haonguyen.CommodityService.repository.ICommodityRepository;
 import com.mini_project.CoreModule.entity.CommodityEntity;
+import com.mini_project.CoreModule.entity.WarehouseCommodityEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -29,18 +30,21 @@ public class CommodityService implements ICommodityService {
      * xoa hang theo dieu kien,ton kho,khong co trong phieu nhap
      */
     @Autowired
-    RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
     @Override
-    public void deleteCommodity(UUID id) throws SaveException {
-        Double commodityInWarehouse = iCommodityRepository.checkCommodityInWarehouseById(id).getInventoryNumber();
-        String checkIdCommodityURL = "http://localhost:8112/v1/api/export/checkIdCommodity/";
-        String sourceCheck = restTemplate.getForObject(checkIdCommodityURL + id, String.class);
-        if (sourceCheck.equals("true") && commodityInWarehouse == 0)
+    public void deleteCommodity(UUID id){
+        WarehouseCommodityEntity temp = iCommodityRepository.checkCommodityInWarehouseById(id);
+        if(temp != null){
+            if(temp.getInventoryNumber() == 0)
+                iCommodityRepository.deleteById(id);
+        }else{
             iCommodityRepository.deleteById(id);
-        else {
-            throw new SaveException("Can not Delete");
         }
+
+        //String checkIdCommodityURL = "http://localhost:8112/v1/api/export/checkIdCommodity/";
+       // String sourceCheck = restTemplate.getForObject(checkIdCommodityURL + id, String.class);
+
     }
 
     /**
@@ -135,5 +139,11 @@ public class CommodityService implements ICommodityService {
         CommodityCreateDto commodityCreateDto = iCommodityMapper.toCreateDto(iCommodityRepository.findById(id).get());
         iCommodityRepository.findById(id).get();
         return commodityCreateDto;
+    }
+
+    @Override
+    public List<CommodityListDTO> getListCommodity() {
+        List<CommodityListDTO> listDTOS = iCommodityRepository.getListCommodity();
+        return listDTOS;
     }
 }

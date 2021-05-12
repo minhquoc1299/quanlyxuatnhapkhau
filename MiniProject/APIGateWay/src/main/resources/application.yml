@@ -43,6 +43,24 @@ spring:
               args:
                 name: IMPORT-SERVICE
                 fallbackuri: forward:/importServiceFallBack
+        - id: SECURITY-SERVICE
+          uri: lb://SECURITY-SERVICE
+          predicates:
+            - Path=/v1/api/security/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: SECURITY-SERVICE
+                fallbackuri: forward:/securityServiceFallBack
+        - id: UI-MODULE
+          uri: lb://UI-MODULE
+          predicates:
+            - Path=/v1/api/frontend/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: UI-MODULE
+                fallbackuri: forward:/uiServiceFallBack
 
 hystrix:
   command:

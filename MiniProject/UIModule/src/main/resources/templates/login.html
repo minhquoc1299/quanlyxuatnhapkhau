@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace = "/fragments/head :: head"></head>
+<body>
+<div class="log-w3">
+<div class="w3layouts-main">
+	<h2>Hệ Thống Quản Lý Xuất Nhập Khẩu</h2>
+		<form action="#" method="post">
+			<input type="email" class="ggg" name="Email" placeholder="E-MAIL" required="">
+			<input type="password" class="ggg" name="Password" placeholder="PASSWORD" required="">
+			<span><!--<input type="checkbox" />Remember Me--></span>
+			<!--<h6><a href="#">Forgot Password?</a></h6>-->
+				<div class="clearfix"></div>
+				<input type="submit" value="Đăng Nhập" name="login">
+		</form>
+		<!--<p>Don't Have an Account ?<a th:href="@{register}">Create an account</a></p>-->
+</div>
+</div>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/jquery.dcjqaccordion.2.7.js}"></script>
+<script th:src="@{/js/scripts.js}"></script>
+<script th:src="@{/js/jquery.slimscroll.js}"></script>
+<script th:src="@{/js/jquery.nicescroll.js}"></script>
+<!--[if lte IE 8]><script language="javascript" type="text/javascript" th:src="@{/js/flot-chart/excanvas.min.js}"></script><![endif]-->
+<script th:src="@{/js/jquery.scrollTo.js}"></script>
+</body>
+</html>
