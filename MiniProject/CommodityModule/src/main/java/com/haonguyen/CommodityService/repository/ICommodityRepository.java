@@ -1,10 +1,7 @@
 package com.haonguyen.CommodityService.repository;
 
 
-import com.haonguyen.CommodityService.dto.CommodityInWarehouseDto;
-import com.haonguyen.CommodityService.dto.CommodityListDTO;
-import com.haonguyen.CommodityService.dto.CommoditySearchDto;
-import com.haonguyen.CommodityService.dto.TypeAndTaxCommodityAPI;
+import com.haonguyen.CommodityService.dto.*;
 import com.mini_project.CoreModule.entity.CommodityEntity;
 import com.mini_project.CoreModule.entity.WarehouseCommodityEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -69,4 +66,13 @@ public interface ICommodityRepository extends JpaRepository<CommodityEntity, UUI
             " LEFT JOIN WarehouseCommodityEntity wc ON como.id = wc.idCommodity" +
             " INNER JOIN TypeOfCommodityEntity tyc ON como.idTypeOfCommodity = tyc.id")
     List<CommodityListDTO> getListCommodity();
+
+    @Query(value = "SELECT new com.haonguyen.CommodityService.dto.TypeList(tyc.id,tyc.typeName)" +
+            " FROM TypeOfCommodityEntity tyc")
+    List<TypeList> getListType();
+
+    @Query(value = "SELECT new com.haonguyen.CommodityService.dto.CountryList(cou.id,cou.countryName,cou.tax," +
+            " cou.transportFee)" +
+            " FROM CountryEntity cou")
+    List<CountryList> getListCountry();
 }

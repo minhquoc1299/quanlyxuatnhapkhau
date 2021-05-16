@@ -2,10 +2,10 @@ package com.haonguyen.ServiceImport.serviceimpl;
 
 import com.haonguyen.ServiceImport.CustomErrorMessage.ReceiptImportNotFoundException;
 import com.haonguyen.ServiceImport.CustomErrorMessage.SaveException;
+import com.haonguyen.ServiceImport.dto.ImportDTO;
 import com.haonguyen.ServiceImport.dto.ImportReceiptDTO;
 import com.haonguyen.ServiceImport.mapper.ImportExportMapper;
 import com.haonguyen.ServiceImport.repository.ImportExportRepository;
-import com.haonguyen.ServiceImport.service.ImportExportService;
 import com.mini_project.CoreModule.entity.*;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +15,16 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ImportExportServiceImpl implements ImportExportService {
+public class IImportService implements com.haonguyen.ServiceImport.service.IImportService {
 
 
     private final ImportExportRepository importExportRepository;
     private final ImportExportMapper importExportMapper;
 
-    public ImportExportServiceImpl(ImportExportRepository importExportRepository, ImportExportMapper importExportMapper) {
+    public IImportService(ImportExportRepository importExportRepository, ImportExportMapper importExportMapper) {
         this.importExportRepository = importExportRepository;
         this.importExportMapper = importExportMapper;
     }
-
 
     /**
      * method save importExportEntity mapper from ImportReceiptDTO set New id to iExportEntity
@@ -37,8 +36,11 @@ public class ImportExportServiceImpl implements ImportExportService {
     @Override
     public ImportExportEntity saveImportExportEntity(ImportExportEntity iExportEntity, ImportReceiptDTO importReceiptDTO) throws SaveException {
         try {
-            ImportExportEntity importExportEntity = importExportMapper.importReceiptDTOToImportExportEntity(importReceiptDTO);
-            ImportExportEntity importExportEntityNew = importExportRepository.save(importExportEntity);
+            ImportExportEntity importExportEntity
+                    = importExportMapper.importReceiptDTOToImportExportEntity(importReceiptDTO);
+
+            ImportExportEntity importExportEntityNew
+                    = importExportRepository.save(importExportEntity);
 
             iExportEntity.setId(importExportEntityNew.getId());
             return iExportEntity;
@@ -50,6 +52,12 @@ public class ImportExportServiceImpl implements ImportExportService {
     @Override
     public List<ImportExportEntity> getAllReceipt() {
         return importExportRepository.findAll();
+    }
+
+    @Override
+    public List<ImportDTO> getListImport() {
+        List<ImportDTO> listImport = importExportRepository.getListImport();
+        return listImport;
     }
 
     @Override
@@ -105,7 +113,8 @@ public class ImportExportServiceImpl implements ImportExportService {
     }
 
     @Override
-    public void setInfoImportExport(CountryEntity countryEntity, WarehouseEntity warehouseEntity,
+    public void setInfoImportExport(CountryEntity countryEntity,
+                                    WarehouseEntity warehouseEntity,
                                     ImportExportEntity iExportEntity,
                                     List<DocumentEntity> documentEntityList,
                                     List<DetailsImportExportEntity> detailsIExportEntityList) {

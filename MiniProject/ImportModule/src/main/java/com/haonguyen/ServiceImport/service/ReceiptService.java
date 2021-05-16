@@ -12,9 +12,9 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 
-public interface ReceiptService {
+public interface ReceiptService{
 
-    ResponseEntity getReceipt(ImportReceiptDTO importReceiptDTO) throws SaveException, CommodityException;
+    ResponseEntity addImport(ImportReceiptDTO importReceiptDTO) throws SaveException, CommodityException;
 
     CommodityEntity getCommodityEntityFromCommodityModule(ItemReceiptDTO list) throws Exception;
 

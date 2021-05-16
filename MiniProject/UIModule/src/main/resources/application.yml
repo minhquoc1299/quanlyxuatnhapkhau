@@ -14,3 +14,4 @@ spring:
     suffix: .html
     mode: HTML5
     template-resolver-order: 3
+resourceImages: D:\quanlyxuatnhapkhau\MiniProject\UIModule\src\main\resources\templates\images

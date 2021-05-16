@@ -1,5 +1,6 @@
 package com.haonguyen.ServiceImport.repository;
 
+import com.haonguyen.ServiceImport.dto.ImportDTO;
 import com.mini_project.CoreModule.entity.CountryEntity;
 import com.mini_project.CoreModule.entity.ImportExportEntity;
 import com.mini_project.CoreModule.entity.WarehouseCommodityEntity;
@@ -49,5 +50,13 @@ public interface ImportExportRepository extends JpaRepository<ImportExportEntity
     List<WarehouseCommodityEntity> findWarehouseCommodityByIdWarehouseIdCommodity(@Param("idWarehouse") UUID idWarehouse,
                                                                                   @Param("idCommodity") UUID idCommodity);
 
-
+    @Query(value = "select new com.haonguyen.ServiceImport.dto.ImportDTO(" +
+            " im.id , cou.countryName , war.warehouseName , im.date)" +
+            " from ImportExportEntity im" +
+            " inner join CountryEntity cou" +
+            " on im.idCountry = cou.id" +
+            " inner join WarehouseEntity war" +
+            " on im.idWarehouse = war.id" +
+            " where im.type = 1")
+    List<ImportDTO> getListImport();
 }

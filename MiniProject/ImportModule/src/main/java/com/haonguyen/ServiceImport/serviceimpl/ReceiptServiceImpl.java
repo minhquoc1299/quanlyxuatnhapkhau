@@ -17,23 +17,25 @@ import java.util.List;
 @Service
 public class ReceiptServiceImpl implements ReceiptService {
 
-    private final ImportExportService importExportService;
+    private final IImportService IImportService;
     private final WarehouseCommodityService warehouseCommodityService;
     private final DetailsImportExportService detailsImportExportService;
     private final DocumentService documentService;
+
     private final RestTemplate restTemplate;
+
     private final ItemReceiptMapper itemReceiptMapper;
     private final ImportExportMapper importExportMapper;
     private final DetailsImportExportMapper detailsImportExportMapper;
     private final WarehouseCommodityMapper warehouseCommodityMapper;
     private final CommodityDTOMapper commodityDTOMapper;
 
-    public ReceiptServiceImpl(ImportExportService importExportService, WarehouseCommodityService warehouseCommodityService,
+    public ReceiptServiceImpl(IImportService IImportService, WarehouseCommodityService warehouseCommodityService,
                               DetailsImportExportService detailsImportExportService,
                               DocumentService documentService, RestTemplate restTemplate, ItemReceiptMapper itemReceiptMapper,
                               ImportExportMapper importExportMapper, DetailsImportExportMapper detailsImportExportMapper,
                               WarehouseCommodityMapper warehouseCommodityMapper, CommodityDTOMapper commodityDTOMapper) {
-        this.importExportService = importExportService;
+        this.IImportService = IImportService;
         this.warehouseCommodityService = warehouseCommodityService;
         this.detailsImportExportService = detailsImportExportService;
         this.documentService = documentService;
@@ -53,16 +55,16 @@ public class ReceiptServiceImpl implements ReceiptService {
      * recommendWarehouse if Max > warehouse capacity
      */
     @Override
-    public ResponseEntity getReceipt(ImportReceiptDTO importReceiptDTO) throws SaveException, CommodityException {
+    public ResponseEntity addImport(ImportReceiptDTO importReceiptDTO) throws SaveException, CommodityException {
         if (importReceiptDTO == null) {
             return null;
         }
 
         List<ItemReceiptDTO> itemReceiptDTOList = importReceiptDTO.getItem();
 
-        CountryEntity countryEntity = importExportService.findCountryById(importReceiptDTO.getIdCountry());
+        CountryEntity countryEntity = IImportService.findCountryById(importReceiptDTO.getIdCountry());
 
-        WarehouseEntity warehouseEntity = importExportService.findWarehouseById(importReceiptDTO.getIdWarehouse());
+        WarehouseEntity warehouseEntity = IImportService.findWarehouseById(importReceiptDTO.getIdWarehouse());
 
         ImportExportEntity importExportEntity = importExportMapper.importReceiptDTOToImportExportEntity(importReceiptDTO);
 
@@ -86,9 +88,9 @@ public class ReceiptServiceImpl implements ReceiptService {
         if (Max < warehouseEntity.getCapacity()) {
             detailsImportExportService.setInfoDetailsImportExport(importExportEntity, detailsIExportEntityList, commodityEntityList);
 
-            importExportService.setInfoImportExport(countryEntity, warehouseEntity, importExportEntity, documentEntityList, detailsIExportEntityList);
+            IImportService.setInfoImportExport(countryEntity, warehouseEntity, importExportEntity, documentEntityList, detailsIExportEntityList);
 
-            ImportExportEntity importExportEntityNew = importExportService.saveImportExportEntity(importExportEntity, importReceiptDTO);
+            ImportExportEntity importExportEntityNew = IImportService.saveImportExportEntity(importExportEntity, importReceiptDTO);
             detailsImportExportService.save(detailsIExportEntityList, importExportEntityNew);
             documentService.save(documentEntityList, importExportEntityNew);
 
@@ -101,7 +103,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
             return ResponseEntity.ok().body(importExportEntity);
         } else {
-            List<WarehouseEntity> recommendWarehouse = importExportService.getWarehouseEntityList(Max);
+            List<WarehouseEntity> recommendWarehouse = IImportService.getWarehouseEntityList(Max);
             return ResponseEntity.ok().body(recommendWarehouse);
         }
     }
@@ -137,12 +139,12 @@ public class ReceiptServiceImpl implements ReceiptService {
             List<ImportExportEntity> iExportEntityList = new ArrayList<>();
             if (keySearchDTO.getDate() != null) {
                 if (keySearchDTO.getKey() == null) {
-                    iExportEntityList.addAll(importExportService.findAllByDate(keySearchDTO.getDate()));
+                    iExportEntityList.addAll(IImportService.findAllByDate(keySearchDTO.getDate()));
                 } else {
-                    iExportEntityList.addAll(importExportService.searchImportExport(keySearchDTO.getKey(), keySearchDTO.getDate()));
+                    iExportEntityList.addAll(IImportService.searchImportExport(keySearchDTO.getKey(), keySearchDTO.getDate()));
                 }
             } else {
-                iExportEntityList.addAll(importExportService.searchImportExport(keySearchDTO.getKey(), keySearchDTO.getDate()));
+                iExportEntityList.addAll(IImportService.searchImportExport(keySearchDTO.getKey(), keySearchDTO.getDate()));
             }
             return iExportEntityList;
         } catch (Exception exception) {

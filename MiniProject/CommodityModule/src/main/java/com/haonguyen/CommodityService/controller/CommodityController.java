@@ -66,7 +66,7 @@ public class CommodityController {
      */
     @PutMapping("/{id}")
     public CommodityUpdateDto updateCommodity(@RequestBody CommodityUpdateDto commodityUpdateDto,
-                                              @PathVariable("id") UUID idCommodity) throws SaveException {
+                                              @PathVariable("id") UUID idCommodity){
 
         CommodityUpdateDto commodityUpdateDto1 = iCommodityService.updateCommodity(commodityUpdateDto, idCommodity);
         return commodityUpdateDto1;
@@ -104,6 +104,17 @@ public class CommodityController {
     public List<CommodityListDTO> getListCommodity(){
         return iCommodityService.getListCommodity();
     }
-
+    @RequestMapping(value = "/listtype",method = RequestMethod.GET)
+    public List<TypeList> getListType(){
+        return iCommodityService.getListType();
+    }
+    @RequestMapping(value = "/listwarehouse",method = RequestMethod.GET)
+    public List<WarehouseList> getListWarehouse(){
+        return iWarehouseService.getListWarehouse();
+    }
+    @RequestMapping(value = "/listcountry",method = RequestMethod.GET)
+    public List<CountryList> getListCountry(){
+        return iCommodityService.getListCountry();
+    }
 }
 

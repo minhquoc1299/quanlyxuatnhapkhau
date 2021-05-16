@@ -18,11 +18,11 @@ import java.util.UUID;
 @Service
 public class CommodityService implements ICommodityService {
     private final ICommodityRepository iCommodityRepository;
-    private final ICommodityMapper commodityMapper;
+    private final ICommodityMapper iCommodityMapper;
 
-    public CommodityService(ICommodityRepository iCommodityRepository, ICommodityMapper commodityMapper) {
+    public CommodityService(ICommodityRepository iCommodityRepository, ICommodityMapper iCommodityMapper) {
         this.iCommodityRepository = iCommodityRepository;
-        this.commodityMapper = commodityMapper;
+        this.iCommodityMapper = iCommodityMapper;
     }
 
 
@@ -73,7 +73,6 @@ public class CommodityService implements ICommodityService {
             return null;
         }
 
-        ICommodityMapper iCommodityMapper = new ICommodityMapperImpl();
         CommodityEntity commodityEntity = iCommodityMapper.fromCreateToEntity(commodityCreateDto);
         iCommodityRepository.saveAndFlush(commodityEntity);
         CommodityCreateDto commodityCreateDto1 = iCommodityMapper.toCreateDto(commodityEntity);
@@ -84,21 +83,16 @@ public class CommodityService implements ICommodityService {
      * Cap nhat hang
      */
     @Override
-    public CommodityUpdateDto updateCommodity(CommodityUpdateDto commodityUpdateDto, UUID idCommodity) throws SaveException {
+    public CommodityUpdateDto updateCommodity(CommodityUpdateDto commodityUpdateDto, UUID idCommodity){
         if (commodityUpdateDto == null) {
             return null;
         }
         commodityUpdateDto.setId(idCommodity);
         CommodityEntity commodityEntities = iCommodityRepository.checkIdCommodity(idCommodity);
-        if (commodityEntities == null) {
-            throw new SaveException("không thể update");
-        } else {
-            ICommodityMapper iCommodityMapper = new ICommodityMapperImpl();
-            CommodityEntity commodityEntity = iCommodityMapper.fromUpdateToEntity(commodityUpdateDto);
-            iCommodityRepository.save(commodityEntity);
-            CommodityUpdateDto commodityUpdateDto1 = iCommodityMapper.toUpdateDto(commodityEntity);
-            return commodityUpdateDto1;
-        }
+        CommodityEntity commodityEntity = iCommodityMapper.fromUpdateToEntity(commodityUpdateDto);
+        iCommodityRepository.save(commodityEntity);
+        CommodityUpdateDto commodityUpdateDto1 = iCommodityMapper.toUpdateDto(commodityEntity);
+        return commodityUpdateDto1;
 
     }
 
@@ -107,7 +101,6 @@ public class CommodityService implements ICommodityService {
      */
     @Override
     public List<TypeOfCommodityDto> findCommodityByIdTypeOfCommodity(UUID idTypeOfCommodity) {
-        ICommodityMapper iCommodityMapper = new ICommodityMapperImpl();
         List<TypeOfCommodityDto> typeOfCommodityDto = iCommodityMapper
                 .toFindSectorId(iCommodityRepository.findCommodityByIdTypeOfCommodity(idTypeOfCommodity));
         return typeOfCommodityDto;
@@ -135,7 +128,7 @@ public class CommodityService implements ICommodityService {
      */
     @Override
     public CommodityCreateDto CommodityById(UUID id) {
-        ICommodityMapper iCommodityMapper = new ICommodityMapperImpl();
+
         CommodityCreateDto commodityCreateDto = iCommodityMapper.toCreateDto(iCommodityRepository.findById(id).get());
         iCommodityRepository.findById(id).get();
         return commodityCreateDto;
@@ -145,5 +138,17 @@ public class CommodityService implements ICommodityService {
     public List<CommodityListDTO> getListCommodity() {
         List<CommodityListDTO> listDTOS = iCommodityRepository.getListCommodity();
         return listDTOS;
+    }
+
+    @Override
+    public List<TypeList> getListType() {
+        List<TypeList> typeLists = iCommodityRepository.getListType();
+        return typeLists;
+    }
+
+    @Override
+    public List<CountryList> getListCountry() {
+        List<CountryList> countryLists = iCommodityRepository.getListCountry();
+        return countryLists;
     }
 }

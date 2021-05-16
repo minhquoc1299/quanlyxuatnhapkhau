@@ -25,7 +25,7 @@
                                 <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
                                 Xuất File
                             </a>
-                            <a th:href = "@{#}" type = "button" class="btn btn-sm btn-default">
+                            <a th:href = "@{/commodity/add}" type = "button" class="btn btn-sm btn-default">
                                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                 Thêm mới
                             </a>
@@ -87,10 +87,10 @@
                                 <td th:text = "*{info.commodityPrice}"></td>
                                 <td th:text = "*{info.commodityUnit}"></td>
                                 <td th:text = "${info.inventoryNumber} ? *{info.inventoryNumber} : '0'"></td>
-                                <td><a th:href="@{'/v1/delete/'+ ${info.commodityId}}" class="active" ui-toggle-class=""><i
+                                <td><a th:href="@{'/commodity/update/'+ ${info.commodityId}}" class="active" ui-toggle-class=""><i
                                             class="fa fa-pencil text-success text-active"></i></a>
                                 </td>
-                                <td><a th:href="@{'/v1/delete/'+ ${info.commodityId}}" class="active" ui-toggle-class=""><i
+                                <td><a th:href="@{'/commodity/delete/'+ ${info.commodityId}}" class="active" ui-toggle-class=""><i
                                             class="fa fa-times text-danger text"></i></a>
                                 </td>
                             </tr>
