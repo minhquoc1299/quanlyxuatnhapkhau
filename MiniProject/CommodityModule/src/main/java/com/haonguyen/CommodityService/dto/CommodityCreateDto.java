@@ -19,8 +19,6 @@ public class CommodityCreateDto {
     private String description;
     private Float price;
     private String unit;
-
-
     @Type(type = "uuid-char")
     private UUID idTypeOfCommodity;
 

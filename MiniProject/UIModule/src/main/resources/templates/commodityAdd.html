@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace = "/fragments/head :: head"></head>
+<body>
+<section id="container">
+    <!--header start-->
+    <header th:replace="/fragments/header :: header">
+    </header>
+    <!--header end-->
+    <!--sidebar start-->
+    <aside th:replace="/fragments/sidebar :: sidebar"></aside>
+    <!--sidebar end-->
+    <!--main content start-->
+    <section id="main-content">
+        <section class="wrapper">
+            <div class="table-agile-info">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Thêm hàng hóa
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal bucket-form"
+                              method="POST" th:action="@{/create}" th:object ="${create}">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Tên Hàng Hóa</label>
+                                <div class="col-sm-6">
+                                    <input  th:field="*{commodityName}" type="text" class="form-control" required="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Giá</label>
+                                <div class="col-sm-6">
+                                    <input th:field="*{price}" type="number" class="form-control" required="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Đơn vị</label>
+                                <div class="col-sm-6">
+                                    <input th:field="*{unit}" type="text" class="form-control" required="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Loại Hàng</label>
+                                <div class="col-sm-6">
+                                <select th:field="*{idTypeOfCommodity}" class="form-control m-bot15">
+                                    <option th:each="temp : ${typeList}"
+                                            th:value = "${temp.idType}"
+                                            th:text = "${temp.nameType}">
+                                    </option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Mô tả</label>
+                                <div class="col-sm-6">
+                                    <textarea th:field="*{description}" type="text" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-offset-3 col-lg-6" align="center">
+                                    <button class="btn btn-primary" type="submit">Thêm</button>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="table-responsive">
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--main content end-->
+    </section>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/jquery.dcjqaccordion.2.7.js}"></script>
+    <script th:src="@{/js/scripts.js}"></script>
+    <script th:src="@{/js/jquery.slimscroll.js}"></script>
+    <script th:src="@{/js/jquery.nicescroll.js}"></script>
+    <!--[if lte IE 8]>
+    <script language="javascript" type="text/javascript" th:src="@{/js/flot-chart/excanvas.min.js}"></script>
+    <![endif]-->
+    <script th:src="@{/js/jquery.scrollTo.js}"></script>
+</section>
+</body>
+
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace = "/fragments/head :: head"></head>
+<body>
+<section id="container">
+    <!--header start-->
+    <header th:replace="/fragments/header :: header"></header>
+    <!--header end-->
+    <!--sidebar start-->
+    <aside th:replace="/fragments/sidebar :: sidebar"></aside>
+    <!--sidebar end-->
+    <!--main content start-->
+    <section id="main-content">
+        <section class="wrapper">
+            <div class="table-agile-info">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Chi tiết phiếu nhập
+                    </div>
+                    <div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Mã Phiếu Nhập: 44044B36-AE10-4CD9-96D7-A466B7CB51C7</th>
+                                <th></th>
+                                <th>Ngày Nhập: 30/04/2021</th>
+                            </tr>
+                            <tr>
+                                <th>Quốc Gia Nhập: USA</th>
+                                <th>Kho Chứa: Kho Thực Phẩm</th>
+                                <th>Tổng hóa đơn : 120.000.000 VNĐ</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <section class="panel" style="margin-bottom:0px;">
+                                <label style="padding-left:15px;">Danh sách hàng nhập</label>
+                                <span style="padding-right:15px;" class="tools pull-right" >
+                                <a class="fa fa-chevron-down" href="javascript:;"></a></span>
+                                <div class="panel-body">
+                                    <div>
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Mã Hàng Hóa</th>
+                                                <th>Tên Hàng Hóa</th>
+                                                <th>Số Lượng</th>
+                                                <th>Đơn Giá</th>
+                                                <th>Thành Tiền</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>D58EBCFA-ABE6-11EB-8529-0242AC130003</td>
+                                                <td>Áo Phong</td>
+                                                <td>1500</td>
+                                                <td>30000</td>
+                                                <td>45000000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>12C39D02-ABE7-11EB-8529-0242AC130003</td>
+                                                <td>Áo Jeans</td>
+                                                <td>1500</td>
+                                                <td>50000</td>
+                                                <td>75000000</td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="gallery" style="background: none;box-shadow: none;">
+                        <h2 class="w3ls_head">Hồ sơ liên quan</h2>
+                        <div class="gallery-grids">
+                            <div class="gallery-top-grids">
+                                <div class="col-sm-4 gallery-grids-left">
+                                    <div class="gallery-grid">
+                                        <a class="example-image-link" th:href="@{/images/g11.jpg}" data-lightbox="example-set" data-title="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae cursus ligula">
+                                            <img th:src="@{/images/g11.jpg}" alt="" />
+                                            <div class="captn">
+                                                <h4>A C</h4>
+                                                <p>Test</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 gallery-grids-left">
+                                    <div class="gallery-grid">
+                                        <a class="example-image-link" th:href="@{/images/g11.jpg}" data-lightbox="example-set" data-title="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae cursus ligula">
+                                            <img th:src="@{/images/g11.jpg}" alt="">
+                                            <div class="captn">
+                                                <h4>Visitors</h4>
+                                                <p>Aliquam non</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="clearfix"> </div>
+                            </div>
+                            <div class="clearfix"> </div>
+                            <script th:src="@{/js/lightbox-plus-jquery.min.js}"> </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <!--main content end-->
+    </section>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/jquery.dcjqaccordion.2.7.js}"></script>
+    <script th:src="@{/js/scripts.js}"></script>
+    <script th:src="@{/js/jquery.slimscroll.js}"></script>
+    <script th:src="@{/js/jquery.nicescroll.js}"></script>
+    <!--[if lte IE 8]>
+    <script language="javascript" type="text/javascript" th:src="@{/js/flot-chart/excanvas.min.js}"></script>
+    <![endif]-->
+    <script th:src="@{/js/jquery.scrollTo.js}"></script>
+
+    <!--    AjaxSearch-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+      $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+    </script>
+    <!--    end AjaxSearch-->
+</section>
+</body>
+
+</html>

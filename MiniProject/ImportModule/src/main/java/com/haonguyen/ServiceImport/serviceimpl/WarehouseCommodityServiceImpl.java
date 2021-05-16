@@ -4,7 +4,7 @@ import com.haonguyen.ServiceImport.CustomErrorMessage.SaveException;
 import com.haonguyen.ServiceImport.dto.ItemReceiptDTO;
 import com.haonguyen.ServiceImport.dto.WarehouseCommodityDTO;
 import com.haonguyen.ServiceImport.repository.WarehouseCommodityRepository;
-import com.haonguyen.ServiceImport.service.ImportExportService;
+import com.haonguyen.ServiceImport.service.IImportService;
 import com.haonguyen.ServiceImport.service.WarehouseCommodityService;
 import com.mini_project.CoreModule.entity.DetailsImportExportEntity;
 import com.mini_project.CoreModule.entity.ImportExportEntity;
@@ -19,12 +19,12 @@ import java.util.stream.Collectors;
 public class WarehouseCommodityServiceImpl implements WarehouseCommodityService {
 
     private final WarehouseCommodityRepository warehouseCommodityRepository;
-    private final ImportExportService importExportService;
+    private final IImportService IImportService;
 
     public WarehouseCommodityServiceImpl(WarehouseCommodityRepository warehouseCommodityRepository,
-                                         ImportExportService importExportService) {
+                                         IImportService IImportService) {
         this.warehouseCommodityRepository = warehouseCommodityRepository;
-        this.importExportService = importExportService;
+        this.IImportService = IImportService;
     }
 
     /**
@@ -41,7 +41,7 @@ public class WarehouseCommodityServiceImpl implements WarehouseCommodityService 
             WarehouseCommodityEntity warehouseCommodityEntity = null;
             for (WarehouseCommodityEntity listWarehouseCommodity : warehouseCommodityEntityList) {
                 List<WarehouseCommodityEntity> listWarehouseCommodityByIdImExport
-                        = importExportService
+                        = IImportService
                         .findWarehouseCommodityByIdWarehouseIdCommodity(listWarehouseCommodity.getIdWarehouse(), listWarehouseCommodity.getIdCommodity());
                 if (listWarehouseCommodityByIdImExport.size() == 0) {
                     warehouseCommodityEntity = warehouseCommodityRepository.save(listWarehouseCommodity);

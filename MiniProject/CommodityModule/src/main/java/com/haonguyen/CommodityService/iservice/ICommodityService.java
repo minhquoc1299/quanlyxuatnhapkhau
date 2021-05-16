@@ -17,11 +17,15 @@ public interface ICommodityService {
 
     List<CommoditySearchDto> searchCommodity(String key) throws SaveException;
 
-    CommodityUpdateDto updateCommodity(CommodityUpdateDto commodityUpdateDto, UUID idCommodity) throws SaveException;
+    CommodityUpdateDto updateCommodity(CommodityUpdateDto commodityUpdateDto, UUID idCommodity);
 
     CommodityCreateDto CommodityById(UUID id);
 
     TypeAndTaxCommodityAPI getTypeTaxCommodity(UUID idCommodity) throws Exception;
 
     List<CommodityListDTO> getListCommodity();
+
+    List<TypeList> getListType();
+
+    List<CountryList> getListCountry();
 }
