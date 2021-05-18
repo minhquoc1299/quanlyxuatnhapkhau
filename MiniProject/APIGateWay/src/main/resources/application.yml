@@ -43,15 +43,15 @@ spring:
               args:
                 name: IMPORT-SERVICE
                 fallbackuri: forward:/importServiceFallBack
-        - id: SECURITY-SERVICE
-          uri: lb://SECURITY-SERVICE
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
           predicates:
-            - Path=/v1/api/security/**
+            - Path=/v1/api/user/**
           filters:
             - name: CircuitBreaker
               args:
-                name: SECURITY-SERVICE
-                fallbackuri: forward:/securityServiceFallBack
+                name: USER-SERVICE
+                fallbackuri: forward:/userServiceFallBack
         - id: UI-MODULE
           uri: lb://UI-MODULE
           predicates:

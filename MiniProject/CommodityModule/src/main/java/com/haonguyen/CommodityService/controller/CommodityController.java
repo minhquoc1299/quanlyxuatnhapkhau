@@ -116,5 +116,10 @@ public class CommodityController {
     public List<CountryList> getListCountry(){
         return iCommodityService.getListCountry();
     }
+    @RequestMapping(value = "/listWarehouseCapacity/{quantity}",method = RequestMethod.GET)
+    public List<WarehouseList> getListWarehouseCapacity(@PathVariable("quantity") Double quantity){
+        List<WarehouseList> warehouseCapacity = iWarehouseService.getListWarehouseCapacity(quantity);
+        return warehouseCapacity;
+    }
 }
 

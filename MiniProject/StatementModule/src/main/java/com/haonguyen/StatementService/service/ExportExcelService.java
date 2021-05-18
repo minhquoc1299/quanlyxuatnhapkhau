@@ -290,6 +290,7 @@ public class ExportExcelService implements IExportExcelService{
         response.setHeader(headerKey, headerValue);
 
         String[] temp = monthAndYear.split("&");
+        
         int month = Integer.parseInt(temp[0]);
         int year = Integer.parseInt(temp[1]);
 

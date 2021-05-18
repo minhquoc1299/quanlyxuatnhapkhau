@@ -50,62 +50,18 @@ public class ReceiptServiceImpl implements ReceiptService {
     /**
      * method to save Receipt Import
      *
-     * @param importReceiptDTO
+     * @param importCreate
      * @return iExportEntityNew if Max(amount in receipt) < warehouse capacity
      * recommendWarehouse if Max > warehouse capacity
      */
     @Override
-    public ResponseEntity addImport(ImportReceiptDTO importReceiptDTO) throws SaveException, CommodityException {
-        if (importReceiptDTO == null) {
+    public ResponseEntity addImport(ImportCreate importCreate){
+        if (importCreate == null) {
             return null;
         }
+        return null;
 
-        List<ItemReceiptDTO> itemReceiptDTOList = importReceiptDTO.getItem();
 
-        CountryEntity countryEntity = IImportService.findCountryById(importReceiptDTO.getIdCountry());
-
-        WarehouseEntity warehouseEntity = IImportService.findWarehouseById(importReceiptDTO.getIdWarehouse());
-
-        ImportExportEntity importExportEntity = importExportMapper.importReceiptDTOToImportExportEntity(importReceiptDTO);
-
-        List<DocumentEntity> documentEntityList = itemReceiptMapper.itemReceiptToDocumentEntity(importReceiptDTO.getItem());
-
-        List<DetailsImportExportEntity> detailsIExportEntityList = detailsImportExportMapper.importReceiptDTOToDetailsEntity(importReceiptDTO.getItem());
-
-        List<CommodityEntity> commodityEntityList = new ArrayList<>();
-
-        int Max = 0;
-
-        // get all the information commodity and Max
-        for (ItemReceiptDTO listItem : itemReceiptDTOList) {
-            CommodityEntity commodityEntity = getCommodityEntityFromCommodityModule(listItem);
-            Max += listItem.getQuantity();
-            commodityEntityList.add(commodityEntity);
-        }
-
-        documentService.setInfoDocument(importExportEntity, documentEntityList);
-
-        if (Max < warehouseEntity.getCapacity()) {
-            detailsImportExportService.setInfoDetailsImportExport(importExportEntity, detailsIExportEntityList, commodityEntityList);
-
-            IImportService.setInfoImportExport(countryEntity, warehouseEntity, importExportEntity, documentEntityList, detailsIExportEntityList);
-
-            ImportExportEntity importExportEntityNew = IImportService.saveImportExportEntity(importExportEntity, importReceiptDTO);
-            detailsImportExportService.save(detailsIExportEntityList, importExportEntityNew);
-            documentService.save(documentEntityList, importExportEntityNew);
-
-            // create warehouseCommodityDTO
-            WarehouseCommodityDTO warehouseCommodityDTO = warehouseCommodityMapper.ToWarehouseCommodityDto(importExportEntity, importReceiptDTO);
-
-            List<WarehouseCommodityEntity> warehouseCommodityEntityList = warehouseCommodityService.getFromWarehouseCommodityDTO(warehouseCommodityDTO);
-
-            warehouseCommodityService.save(warehouseCommodityEntityList, importExportEntityNew);
-
-            return ResponseEntity.ok().body(importExportEntity);
-        } else {
-            List<WarehouseEntity> recommendWarehouse = IImportService.getWarehouseEntityList(Max);
-            return ResponseEntity.ok().body(recommendWarehouse);
-        }
     }
 
     /**

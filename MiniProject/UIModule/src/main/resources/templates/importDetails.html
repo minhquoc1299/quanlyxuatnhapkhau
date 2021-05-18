@@ -22,14 +22,19 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>Mã Phiếu Nhập: 44044B36-AE10-4CD9-96D7-A466B7CB51C7</th>
+                                <th th:text = "'Mã Phiếu Nhập: ' + ${infoDetailsImport.idImport}"></th>
                                 <th></th>
-                                <th>Ngày Nhập: 30/04/2021</th>
+                                <th th:text = "'Ngày Nhập: ' + ${#dates.format(infoDetailsImport.dateImport, 'dd/MM/yyyy')}"></th>
                             </tr>
                             <tr>
-                                <th>Quốc Gia Nhập: USA</th>
-                                <th>Kho Chứa: Kho Thực Phẩm</th>
-                                <th>Tổng hóa đơn : 120.000.000 VNĐ</th>
+                                <th th:text = "'Quốc Gia Nhập: ' + ${infoDetailsImport.countryName}"></th>
+                                <th></th>
+                                <th th:text = "'Kho Chứa: ' + ${infoDetailsImport.warehouseName}"></th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th th:text = "'Tổng Tiền: ' + ${infoDetailsImport.sumTotal}"></th>
                             </tr>
                             </thead>
                         </table>
@@ -54,23 +59,14 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>D58EBCFA-ABE6-11EB-8529-0242AC130003</td>
-                                                <td>Áo Phong</td>
-                                                <td>1500</td>
-                                                <td>30000</td>
-                                                <td>45000000</td>
+                                            <tr th:each = "commodityImportList, info : ${infoDetailsImport.commodityImportList}">
+                                                <td th:text="${info.index + 1}"></td>
+                                                <td th:text = "*{commodityImportList.idCommodity}"></td>
+                                                <td th:text = "*{commodityImportList.commodityName}"></td>
+                                                <td th:text = "*{commodityImportList.quantity}"></td>
+                                                <td th:text = "*{commodityImportList.price}"></td>
+                                                <td th:text = "*{commodityImportList.total}"></td>
                                             </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>12C39D02-ABE7-11EB-8529-0242AC130003</td>
-                                                <td>Áo Jeans</td>
-                                                <td>1500</td>
-                                                <td>50000</td>
-                                                <td>75000000</td>
-                                            </tr>
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -82,24 +78,12 @@
                         <h2 class="w3ls_head">Hồ sơ liên quan</h2>
                         <div class="gallery-grids">
                             <div class="gallery-top-grids">
-                                <div class="col-sm-4 gallery-grids-left">
+                                <div class="col-sm-4 gallery-grids-left"th:each = "info : ${infoDetailsImport.urlImages}" >
                                     <div class="gallery-grid">
-                                        <a class="example-image-link" th:href="@{/images/g11.jpg}" data-lightbox="example-set" data-title="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae cursus ligula">
-                                            <img th:src="@{/images/g11.jpg}" alt="" />
+                                        <a class="example-image-link" th:href="@{*{info}}" data-lightbox="example-set" data-title="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae cursus ligula">
+                                            <img th:src="@{*{info}}" alt="" width="250" height="250"/>
                                             <div class="captn">
-                                                <h4>A C</h4>
-                                                <p>Test</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 gallery-grids-left">
-                                    <div class="gallery-grid">
-                                        <a class="example-image-link" th:href="@{/images/g11.jpg}" data-lightbox="example-set" data-title="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae cursus ligula">
-                                            <img th:src="@{/images/g11.jpg}" alt="">
-                                            <div class="captn">
-                                                <h4>Visitors</h4>
-                                                <p>Aliquam non</p>
+                                                <h4 th:text = "'Phóng to'"></h4>
                                             </div>
                                         </a>
                                     </div>
