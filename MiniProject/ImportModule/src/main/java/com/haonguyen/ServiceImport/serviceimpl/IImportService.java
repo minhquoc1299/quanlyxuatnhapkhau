@@ -2,12 +2,18 @@ package com.haonguyen.ServiceImport.serviceimpl;
 
 import com.haonguyen.ServiceImport.CustomErrorMessage.ReceiptImportNotFoundException;
 import com.haonguyen.ServiceImport.CustomErrorMessage.SaveException;
-import com.haonguyen.ServiceImport.dto.ImportDTO;
-import com.haonguyen.ServiceImport.dto.ImportReceiptDTO;
+import com.haonguyen.ServiceImport.dto.*;
+import com.haonguyen.ServiceImport.mapper.DetailsImportExportMapper;
+import com.haonguyen.ServiceImport.mapper.DocumentMapper;
 import com.haonguyen.ServiceImport.mapper.ImportExportMapper;
+import com.haonguyen.ServiceImport.repository.DetailsImportExportRepository;
+import com.haonguyen.ServiceImport.repository.DocumentRepository;
 import com.haonguyen.ServiceImport.repository.ImportExportRepository;
 import com.mini_project.CoreModule.entity.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,13 +23,25 @@ import java.util.UUID;
 @Service
 public class IImportService implements com.haonguyen.ServiceImport.service.IImportService {
 
-
+    @Autowired
+    private RestTemplate restTemplate;
     private final ImportExportRepository importExportRepository;
+    private final DocumentRepository documentRepository;
+    private final DetailsImportExportRepository detailsImportExportRepository;
     private final ImportExportMapper importExportMapper;
+    private final DetailsImportExportMapper detailsImportExportMapper;
+    private final DocumentMapper documentMapper;
 
-    public IImportService(ImportExportRepository importExportRepository, ImportExportMapper importExportMapper) {
+
+    public IImportService(ImportExportRepository importExportRepository, DocumentRepository documentRepository,
+                          DetailsImportExportRepository detailsImportExportRepository, ImportExportMapper importExportMapper,
+                          DetailsImportExportMapper detailsImportExportMapper, DocumentMapper documentMapper) {
         this.importExportRepository = importExportRepository;
+        this.documentRepository = documentRepository;
+        this.detailsImportExportRepository = detailsImportExportRepository;
         this.importExportMapper = importExportMapper;
+        this.detailsImportExportMapper = detailsImportExportMapper;
+        this.documentMapper = documentMapper;
     }
 
     /**
@@ -61,12 +79,42 @@ public class IImportService implements com.haonguyen.ServiceImport.service.IImpo
     }
 
     @Override
-    public ImportExportEntity getByIdImportExport(UUID idImportExport) throws ReceiptImportNotFoundException {
-        try {
-            return importExportRepository.findById(idImportExport).get();
-        } catch (Exception exception) {
-            throw new ReceiptImportNotFoundException("Not found id:" + idImportExport.toString());
+    public InfoDetailsImportDTO getDetailImportById(UUID idImport) {
+        ImportExportEntity importEntity = importExportRepository.getOne(idImport);
+
+        InfoDetailsImportDTO info = new InfoDetailsImportDTO();
+        info.setIdImport(importEntity.getId());
+        info.setDateImport(importEntity.getDate());
+        info.setWarehouseName(importEntity.getWarehouseEntity().getWarehouseName());
+        info.setCountryName(importEntity.getCountryEntity().getCountryName());
+
+        List<String> urls = new ArrayList<>();
+        for(DocumentEntity temp: importEntity.getDocumentEntities()){
+            urls.add(temp.getImageUrl());
         }
+
+        info.setUrlImages(urls);
+
+        List<InfoDetailsCommodityImport> listCommodities = new ArrayList<>();
+        for(DetailsImportExportEntity temp: importEntity.getDetailsImportExportEntities()){
+            InfoDetailsCommodityImport commodity = new InfoDetailsCommodityImport();
+
+            commodity.setIdCommodity(temp.getIdCommodity());
+            commodity.setPrice(temp.getCommodityEntity().getPrice());
+            commodity.setQuantity(temp.getQuantity());
+            commodity.setTotal(temp.getTotal());
+
+            String sourceCommodityURL = "http://COMMODITY-SERVICE/v1/api/commodity/";
+            CommodityDTO resultCommodityDto = restTemplate.getForObject(sourceCommodityURL + temp.getIdCommodity(), CommodityDTO.class);
+
+            commodity.setCommodityName(resultCommodityDto.getCommodityName());
+
+            listCommodities.add(commodity);
+        }
+
+        info.setCommodityImportList(listCommodities);
+
+        return info;
     }
 
     @Override
@@ -122,5 +170,30 @@ public class IImportService implements com.haonguyen.ServiceImport.service.IImpo
         iExportEntity.setWarehouseEntity(warehouseEntity);
         iExportEntity.setDocumentEntities(documentEntityList);
         iExportEntity.setDetailsImportExportEntities(detailsIExportEntityList);
+    }
+    @Override
+    public ResponseEntity saveImport(ImportCreate importCreate) {
+        ImportExportEntity importEntity = importExportMapper.importCreateToImportExportEntity(importCreate);
+        List<DetailsImportExportEntity> detailsImportEntity = new ArrayList<>();
+
+        ImportExportEntity resultImportEntity = importExportRepository.save(importEntity);
+
+
+        for(String info : importCreate.getListDocument()){
+            DocumentEntity docEntity = new DocumentEntity();
+            docEntity.setIdImportExport(resultImportEntity.getId());
+            docEntity.setImageUrl(info);
+            documentRepository.save(docEntity);
+        }
+
+        for(ItemReceiptDTO info : importCreate.getListCommodity()){
+            DetailsImportExportEntity detailsEntity = new DetailsImportExportEntity();
+            detailsEntity.setIdImportExport(resultImportEntity.getId());
+            detailsEntity.setIdCommodity(info.getIdCommodity());
+            detailsEntity.setQuantity(info.getQuantity());
+            detailsEntity.setTotal(info.getTotal());
+            detailsImportExportRepository.save(detailsEntity);
+        }
+        return ResponseEntity.ok().body(resultImportEntity);
     }
 }

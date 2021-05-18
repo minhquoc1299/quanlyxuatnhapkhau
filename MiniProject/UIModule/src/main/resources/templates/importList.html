@@ -81,11 +81,11 @@
                             </thead>
                             <tbody id = "myTable">
                             <tr th:each = "info : ${importList}">
-                                <td th:text = "*{info.idImport}"></td>
-                                <td th:text = "*{info.countryName}"></td>
-                                <td th:text = "*{info.warehouseName}"></td>
+                                <td th:text = "${info.idImport}"></td>
+                                <td th:text = "${info.countryName}"></td>
+                                <td th:text = "${info.warehouseName}"></td>
                                 <td th:text = "${#dates.format(info.dateImport, 'dd/MM/yyyy')}"></td>
-                                <td><a th:href="@{'/import/details/' + ${info.commodityId}}" class="active" ui-toggle-class=""><i
+                                <td><a th:href="@{'/import/details/' + ${info.idImport}}" class="active" ui-toggle-class=""><i
                                         class="fa fa-pencil text-success text-active">ChiTiết</i></a>
                                 </td>
                             </tr>

@@ -18,13 +18,18 @@
                     <div class="panel-heading">
                         Thêm phiếu nhập khẩu
                     </div>
+                    <form th:object ="${formImportCreate}"
+                          th:action = "@{/import/add}"
+                          enctype="multipart/form-data"
+                          class="form-horizontal bucket-form"
+                          method="POST">
                     <div style="margin-top:15px">
-                        <form class="form-horizontal bucket-form" method="POST">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Quốc Gia Nhập:</label>
                                 <div class="col-sm-6">
-                                    <select class="form-control m-bot15">
-                                        <option th:each = "info : ${countryList}"
+                                    <select th:field = "*{idCountry}" class="form-control m-bot15">
+                                        <option
+                                                th:each = "info : ${countryList}"
                                                 th:value = "${info.id}"
                                                 th:text = "${info.countryName}">
                                         </option>
@@ -34,7 +39,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Kho Chứa:</label>
                                 <div class="col-sm-6">
-                                    <select  class="form-control m-bot15">
+                                    <select th:field = "*{idWarehouse}" class="form-control m-bot15">
                                         <option th:each = "info : ${warehouseList}"
                                                 th:value = "${info.id}"
                                                 th:text = "${info.warehouseName}">
@@ -45,10 +50,9 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Ngày Nhập Khẩu:</label>
                                 <div class="col-sm-6">
-                                    <input type="date" class="form-control" id="dateDefault">
+                                    <input th:field = "*{dateImport}" type="date" class="form-control" id="dateDefault">
                                 </div>
                             </div>
-                        </form>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
@@ -56,44 +60,6 @@
                                 <label style="padding-left:15px;">Danh Sách Hàng Nhập</label>
                                 <span style="padding-right:15px;" class="tools pull-right"><a class="fa fa-chevron-down" href="javascript:;"></a></span>
                                 <!--Modal Them Hang-->
-                                <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"
-                                     id="myModal" class="modal fade">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button aria-hidden="true" data-dismiss="modal" class="close"
-                                                        type="button">×
-                                                </button>
-                                                <h4 class="modal-title">Thêm Hàng Nhập Vào Danh Sách</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form th:action= "@{/addListImport}" role="form" class="form-horizontal"
-                                                    method="post">
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label">Mã Hàng Hóa:</label>
-                                                        <div class="col-sm-6">
-                                                        <input type="text" class="form-control" name = "idCommodity" , id="idCommodity">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label">Số Lượng:</label>
-                                                        <div class="col-sm-6">
-                                                            <input type="number" class="form-control" value="1" min="1"
-                                                            name = "quantityCommodity" , id="quantityCommodity">
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-center">
-                                                        <button style="margin-right: 50px;padding-right: 20px;padding-left: 20px;"
-                                                                aria-hidden="true" type="button" data-dismiss="modal"
-                                                                class="btn btn-secondary">Hủy
-                                                        </button>
-                                                        <button type="submit" class="btn btn-success">Thêm</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="panel-body">
                                     <div class="text-right" style="padding-right:15px;">
                                         <a href="#myModal" data-toggle="modal" class="btn btn-primary">
@@ -101,7 +67,7 @@
                                         </a>
                                     </div>
                                     <div>
-                                        <table class="table">
+                                        <table  class="table">
                                             <thead>
                                             <tr>
                                                 <th>ID Hàng Hóa</th>
@@ -113,12 +79,14 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr data-expanded="true">
-                                                <td>AQ001</td>
-                                                <td>Áo Sơ Mi</td>
-                                                <td>3</td>
-                                                <td>15.000</td>
-                                                <td>45.000</td>
+                                            <tr
+                                                th:each = "info2 : ${formCommodityImport}">
+                                                <td style="text-transform: uppercase"
+                                                    th:text = "${info2.idCommodity}"></td>
+                                                <td th:text = "${info2.commodityName}"></td>
+                                                <td th:text = "${info2.quantity}"></td>
+                                                <td th:text = "${info2.price}"></td>
+                                                <td th:text = "${info2.total}"></td>
                                                 <td>
                                                     <a th:href="@{#}" class="active" ui-toggle-class="">
                                                         <i class="fa fa-times text-danger text"></i>
@@ -140,14 +108,9 @@
                                   <a class="fa fa-chevron-down" href="javascript:;"></a>
                                 </span>
                                 <div class="panel-body">
-                                    <form method="POST" th:action = "@{/upload}"
-                                          th:object="${fileImage}"
-                                          enctype="multipart/form-data">
                                         <div>
-                                            <input th:field = "*{urls}" type="file" multiple="multiple" accept=".png, .jpg, .jpeg">
+                                            <input th:field = "*{listDocument}" type="file" multiple="multiple" accept=".png, .jpg, .jpeg">
                                         </div>
-
-                                    </form>
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-success" style="padding-top:10px;align-content:center;padding-bottom: 10px;padding-right: 15px;padding-left: 15px;">
@@ -155,6 +118,48 @@
                                     </button>
                                 </div>
                             </section>
+                        </div>
+                    </div>
+                    </form>
+                    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1"
+                         id="myModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button aria-hidden="true" data-dismiss="modal" class="close"
+                                            type="button">×
+                                    </button>
+                                    <h4 class="modal-title">Thêm Hàng Nhập Vào Danh Sách</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form th:action = "@{/import/getCommodity}"
+                                          th:object = "${commodity}"
+                                          role="form" class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Mã Hàng Hóa:</label>
+                                            <div class="col-sm-6">
+                                                <input th:field="*{idCommodity}"
+                                                       type="text" class="form-control" name = "idCommodity" , id="idCommodity">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Số Lượng:</label>
+                                            <div class="col-sm-6">
+                                                <input th:field="*{quantity}"
+                                                       type="number" class="form-control" th:value="1" min="1"
+                                                       name = "quantityCommodity" , id="quantityCommodity">
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <button style="margin-right: 50px;padding-right: 20px;padding-left: 20px;"
+                                                    aria-hidden="true" type="button" data-dismiss="modal"
+                                                    class="btn btn-secondary">Hủy
+                                            </button>
+                                            <button type="submit" class="btn btn-success">Thêm</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -193,7 +198,6 @@
 <!--modal-->
 <script>
     $(document).ready(function(){
-        
     });
 </script>
 </body>

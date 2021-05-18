@@ -2,6 +2,7 @@ package com.haonguyen.ServiceImport.service;
 
 import com.haonguyen.ServiceImport.CustomErrorMessage.CommodityException;
 import com.haonguyen.ServiceImport.CustomErrorMessage.SaveException;
+import com.haonguyen.ServiceImport.dto.ImportCreate;
 import com.haonguyen.ServiceImport.dto.ImportReceiptDTO;
 import com.haonguyen.ServiceImport.dto.ItemReceiptDTO;
 import com.haonguyen.ServiceImport.dto.KeySearchDTO;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public interface ReceiptService{
 
-    ResponseEntity addImport(ImportReceiptDTO importReceiptDTO) throws SaveException, CommodityException;
+    ResponseEntity addImport(ImportCreate importCreate);
 
     CommodityEntity getCommodityEntityFromCommodityModule(ItemReceiptDTO list) throws Exception;
 

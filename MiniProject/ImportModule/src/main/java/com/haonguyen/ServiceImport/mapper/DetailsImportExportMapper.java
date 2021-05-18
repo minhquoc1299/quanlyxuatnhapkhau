@@ -8,5 +8,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface DetailsImportExportMapper {
+
     List<DetailsImportExportEntity> importReceiptDTOToDetailsEntity(List<ItemReceiptDTO> itemReceiptDTOList);
+
 }

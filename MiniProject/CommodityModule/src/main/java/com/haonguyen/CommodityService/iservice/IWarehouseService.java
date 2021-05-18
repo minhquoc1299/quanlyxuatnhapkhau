@@ -9,4 +9,6 @@ public interface IWarehouseService {
     List<CommodityInWarehouseDto> checkCommodityInWarehouse();
 
     List<WarehouseList> getListWarehouse();
+
+    List<WarehouseList> getListWarehouseCapacity(Double quantity);
 }
