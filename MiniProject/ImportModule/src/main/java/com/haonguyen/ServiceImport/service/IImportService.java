@@ -3,9 +3,12 @@ package com.haonguyen.ServiceImport.service;
 
 import com.haonguyen.ServiceImport.CustomErrorMessage.ReceiptImportNotFoundException;
 import com.haonguyen.ServiceImport.CustomErrorMessage.SaveException;
+import com.haonguyen.ServiceImport.dto.ImportCreate;
 import com.haonguyen.ServiceImport.dto.ImportDTO;
 import com.haonguyen.ServiceImport.dto.ImportReceiptDTO;
+import com.haonguyen.ServiceImport.dto.InfoDetailsImportDTO;
 import com.mini_project.CoreModule.entity.*;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Date;
 import java.util.List;
@@ -18,7 +21,6 @@ public interface IImportService {
 
     List<ImportExportEntity> getAllReceipt();
 
-    ImportExportEntity getByIdImportExport(UUID idImportExport) throws ReceiptImportNotFoundException;
 
     List<ImportExportEntity> searchImportExport(String key, Date date);
 
@@ -37,4 +39,8 @@ public interface IImportService {
     void setInfoImportExport(CountryEntity countryEntity, WarehouseEntity warehouseEntity, ImportExportEntity iExportEntity, List<DocumentEntity> documentEntityList, List<DetailsImportExportEntity> detailsIExportEntityList);
 
     List<ImportDTO> getListImport();
+
+    ResponseEntity saveImport(ImportCreate importCreate);
+
+    InfoDetailsImportDTO getDetailImportById(UUID idImport);
 }

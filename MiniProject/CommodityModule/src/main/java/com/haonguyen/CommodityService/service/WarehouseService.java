@@ -36,4 +36,10 @@ public class WarehouseService implements IWarehouseService {
         List<WarehouseList> typeLists = iWarehouseRepository.getListWarehouse();
         return typeLists;
     }
+
+    @Override
+    public List<WarehouseList> getListWarehouseCapacity(Double quantity) {
+        List<WarehouseList> warehouseCapacity = iWarehouseRepository.getListWarehouseCapacity(quantity);
+        return warehouseCapacity;
+    }
 }

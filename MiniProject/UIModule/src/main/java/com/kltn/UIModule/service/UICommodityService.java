@@ -84,5 +84,13 @@ public class UICommodityService {
         return Arrays.stream(countryList).collect(Collectors.toList());
     }
 
+    public List<WarehouseList> listWarehouseCapacity(Double quantity){
+        ResponseEntity<WarehouseList[]> responseEntity
+                = restTemplate.getForEntity(urlCommodity + "listWarehouseCapacity/"+quantity,
+                WarehouseList[].class);
+        WarehouseList[] warehouseList = responseEntity.getBody();
+        return Arrays.stream(warehouseList).collect(Collectors.toList());
+    }
+
 
 }
